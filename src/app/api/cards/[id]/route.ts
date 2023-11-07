@@ -1,17 +1,17 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/core/prisma";
-import { updateColumnDto } from "../dto";
+import { updateCardDto } from "../dto";
 
-interface ColumnRouteConext {
+interface CardRouteConext {
     params: {
         id: string
     }
 }
 
-export const PUT = async (req: Request, { params }: ColumnRouteConext) => {
+export const PUT = async (req: Request, { params }: CardRouteConext) => {
     const {id} = params
     const bodyRaw = await req.json();
-    const validateBody = updateColumnDto.safeParse(bodyRaw);
+    const validateBody = updateCardDto.safeParse(bodyRaw);
 
     if(!validateBody.success) {
         return NextResponse.json(validateBody.error.issues, {
@@ -19,50 +19,50 @@ export const PUT = async (req: Request, { params }: ColumnRouteConext) => {
         })
     }
 
-    const findColumn = await prisma.columns.findUnique({
-        where: {
-            id,
+    const findCard = await prisma.cards.findUnique({
+        where:{
+            id
         }
     })
 
-    if(!findColumn){
+    if(!findCard){
         return NextResponse.json([
             {
                 code: "not_found",
-                message: "column not found"
+                message: "card not found"
             }
         ])
     }
 
-    const column = await prisma.columns.update({
+    const card = await prisma.cards.update({
         where:{
             id
         },
         data: validateBody.data
     })
 
-    return NextResponse.json(column); 
+    return NextResponse.json(card); 
 }
 
-export const DELETE = async (req: Request, { params }: ColumnRouteConext) => {
+export const DELETE = async (req: Request, { params }: CardRouteConext) => {
     const {id} = params
 
-    const findColumn = await prisma.columns.findUnique({
+    const findCard = await prisma.cards.findUnique({
         where:{
             id
         }
     })
 
-    if(!findColumn){
+    if(!findCard){
         return NextResponse.json([
             {
                 code: "not_found",
-                message: "column not found"
+                message: "cards not found"
             }
         ])
     }
 
-    await prisma.columns.delete({
+    await prisma.cards.delete({
         where: {
             id,
         }
