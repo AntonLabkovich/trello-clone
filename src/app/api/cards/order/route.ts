@@ -3,7 +3,7 @@ import { updateCardsOrderDto } from "../dto";
 import { prisma } from "@/app/core/prisma";
 
 
-export const PUT = async (req: Request) => {
+export const PUTCH = async (req: Request) => {
     const bodyRaw = await req.json();
     const validateBody = updateCardsOrderDto.safeParse(bodyRaw);
 

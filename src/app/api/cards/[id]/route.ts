@@ -8,7 +8,7 @@ interface CardRouteConext {
     }
 }
 
-export const PUT = async (req: Request, { params }: CardRouteConext) => {
+export const PUTCH = async (req: Request, { params }: CardRouteConext) => {
     const {id} = params
     const bodyRaw = await req.json();
     const validateBody = updateCardDto.safeParse(bodyRaw);

@@ -8,7 +8,7 @@ interface BoardRouteConext {
     }
 }
 
-export const PUT = async (req: Request, { params }: BoardRouteConext) => {
+export const PUTCH = async (req: Request, { params }: BoardRouteConext) => {
     const {id} = params
     const bodyRaw = await req.json();
     const validateBody = updateBoardDto.safeParse(bodyRaw);

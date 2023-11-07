@@ -8,7 +8,7 @@ interface ColumnRouteConext {
     }
 }
 
-export const PUT = async (req: Request, { params }: ColumnRouteConext) => {
+export const PUTCH = async (req: Request, { params }: ColumnRouteConext) => {
     const {id} = params
     const bodyRaw = await req.json();
     const validateBody = updateColumnDto.safeParse(bodyRaw);
