@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createCardDto } from "./dto";
-import { prisma } from "@/app/core/prisma";
+import { prisma } from "@/core/prisma";
 
 export const POST = async (req: Request) => {
     const bodyRaw = await req.json();

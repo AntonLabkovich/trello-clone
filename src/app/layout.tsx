@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-import { NavBar } from './components'
+import { NavBar } from '../components'
+import { ReqctQueryProvider } from '@/providers/react-query.proveiders'
 
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Trello clone',
@@ -19,7 +18,10 @@ export default function RootLayout({
     <html lang="en">
 
       <body className="dark bg-gray-900">
-        <NavBar />{children}
+        <ReqctQueryProvider>
+          <NavBar />
+          {children}
+        </ReqctQueryProvider>
       </body>
     </html>
   )
