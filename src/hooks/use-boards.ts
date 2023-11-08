@@ -6,14 +6,20 @@ const getBoardsFn = async () => {
     const { data } = await api.get<Boards[]>("/api/boards");
 
     return data;
+};
+
+interface UseBoardsQueryOptions {
+    initialData: Boards[];
 }
 
-interface IUseBoardsOptions {
-    initialData: Boards[]
-}
+export const useBoardsQueryKey = ["boards"];
 
-export const useBoards = ({ initialData }: IUseBoardsOptions) => {
-    const query = useQuery({ queryKey: ["boards"], queryFn: getBoardsFn, initialData })
+export const useBoards = ({ initialData }: UseBoardsQueryOptions) => {
+    const query = useQuery({
+        queryKey: useBoardsQueryKey,
+        queryFn: getBoardsFn,
+        initialData,
+    });
 
-    return query
-}
+    return query;
+};

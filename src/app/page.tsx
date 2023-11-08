@@ -1,5 +1,4 @@
 import { prisma } from "@/core/prisma";
-import { BoardCard } from "../components/board-card.component";
 import { BoardsList } from "@/components/boards-list.components";
 
 export default async function Home() {
