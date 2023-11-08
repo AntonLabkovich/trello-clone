@@ -1,5 +1,5 @@
 import { prisma } from "@/core/prisma";
-import { BoardsList } from "@/components/boards-list.components";
+import { BoardsList } from "@/components/boards-list.component";
 
 export default async function Home() {
   const boards = await prisma.boards.findMany();

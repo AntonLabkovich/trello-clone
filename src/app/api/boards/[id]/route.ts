@@ -2,29 +2,60 @@ import { NextResponse } from "next/server";
 import { updateBoardDto } from "../dto";
 import { prisma } from "@/core/prisma";
 
-interface BoardRouteConext {
+interface BoardRouteContext {
     params: {
         id: string
     }
 }
 
-export const PUTCH = async (req: Request, { params }: BoardRouteConext) => {
-    const {id} = params
+export async function GET(req: Request, { params }: BoardRouteContext) {
+    const { id } = params;
+  
+    const board = await prisma.boards.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        colums: {
+          orderBy: {
+            order: "asc",
+          },
+          include: {
+            cards: true,
+          },
+        },
+      },
+    });
+  
+    if (!board) {
+      return NextResponse.json([
+        {
+          code: "not_found",
+          messages: "Board not found",
+        },
+      ]);
+    }
+  
+    return NextResponse.json(board);
+  }
+
+export const PUTCH = async (req: Request, { params }: BoardRouteContext) => {
+    const { id } = params
     const bodyRaw = await req.json();
     const validateBody = updateBoardDto.safeParse(bodyRaw);
-    if(!validateBody.success) {
+    if (!validateBody.success) {
         return NextResponse.json(validateBody.error.issues, {
             status: 400,
         })
     }
 
     const findBoard = await prisma.boards.findUnique({
-        where:{
+        where: {
             id
         }
     })
 
-    if(!findBoard){
+    if (!findBoard) {
         return NextResponse.json([
             {
                 code: "not_found",
@@ -40,19 +71,19 @@ export const PUTCH = async (req: Request, { params }: BoardRouteConext) => {
         data: validateBody.data
     })
 
-    return NextResponse.json(updatedBoard); 
+    return NextResponse.json(updatedBoard);
 }
 
-export const DELETE = async (req: Request, { params }: BoardRouteConext) => {
-    const {id} = params
+export const DELETE = async (req: Request, { params }: BoardRouteContext) => {
+    const { id } = params
 
     const findBoard = await prisma.boards.findUnique({
-        where:{
+        where: {
             id
         }
     })
 
-    if(!findBoard){
+    if (!findBoard) {
         return NextResponse.json([
             {
                 code: "not_found",
@@ -67,5 +98,5 @@ export const DELETE = async (req: Request, { params }: BoardRouteConext) => {
         }
     })
 
-    return NextResponse.json({}, {status: 200})
+    return NextResponse.json({}, { status: 200 })
 }
